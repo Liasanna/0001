@@ -1,0 +1,15 @@
+$ mkdir -p config-files/primarycnf
+$ touch config-files/primarycnf/primary-1.cnf
+
+[mariadb]
+log-bin                         # enable binary logging
+server_id=3000                  # used to uniquely identify the server
+log-basename=my-mariadb         # used to be independent of hostname changes 
+                                # (otherwise name is <datadir>/mysql-bin)
+#binlog-format=MIXED            #default 
+$ mkdir primaryinit
+$ touch primaryinit/primaryinit.sql
+
+CREATE USER 'repluser'@'%' IDENTIFIED BY 'replsecret';
+GRANT REPLICATION SLAVE ON *.* TO 'repluser'@'%';
+CREATE DATABASE primary_db;
